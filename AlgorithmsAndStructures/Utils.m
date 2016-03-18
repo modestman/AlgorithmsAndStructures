@@ -13,8 +13,15 @@
 
 +(void)printArray:(NSArray*)array
 {
-    NSString *str = [array componentsJoinedByString:@", "];
-    NSLog(@"%@", str);
+    if ([array count] == 0)
+    {
+        NSLog(@"0 objects");
+    }
+    else
+    {
+        NSString *str = [array componentsJoinedByString:@", "];
+        NSLog(@"%@", str);
+    }
 }
 
 +(NSMutableArray*)fillRandomIntArrayWithCapacity:(int)capacity

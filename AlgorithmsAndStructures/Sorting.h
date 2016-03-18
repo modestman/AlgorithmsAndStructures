@@ -17,4 +17,7 @@
 /// Сортировка пузырьком
 -(void)bubbleSort:(NSMutableArray*)array;
 
+/// Сортировка слиянием
+-(NSArray*)mergeSort:(NSArray*)array;
+
 @end

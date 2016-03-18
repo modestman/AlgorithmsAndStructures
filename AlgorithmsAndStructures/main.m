@@ -22,8 +22,10 @@ int main(int argc, const char * argv[]) {
         NSMutableArray *array = [Utils fillRandomIntArrayWithCapacity:10];
         [Utils printArray:array];
         Sorting *sorting = [Sorting new];
-        [sorting insertionSort:array];
-        [Utils printArray:array];
+        //[sorting insertionSort:array];
+        //[sorting bubbleSort:array];
+        NSArray *result = [sorting mergeSort:array];
+        [Utils printArray:result];
 
     }
     return 0;
