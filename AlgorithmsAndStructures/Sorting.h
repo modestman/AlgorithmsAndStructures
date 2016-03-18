@@ -20,4 +20,7 @@
 /// Сортировка слиянием
 -(NSArray*)mergeSort:(NSArray*)array;
 
+/// Быстрая сортировка
+-(void)quickSort:(NSMutableArray*)array;
+
 @end

@@ -24,8 +24,9 @@ int main(int argc, const char * argv[]) {
         Sorting *sorting = [Sorting new];
         //[sorting insertionSort:array];
         //[sorting bubbleSort:array];
-        NSArray *result = [sorting mergeSort:array];
-        [Utils printArray:result];
+        [sorting quickSort:array];
+        //NSArray *result = [sorting mergeSort:array];
+        [Utils printArray:array];
 
     }
     return 0;

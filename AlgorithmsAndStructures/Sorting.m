@@ -7,6 +7,7 @@
 //
 
 #import "Sorting.h"
+#include <stdlib.h>
 
 @implementation Sorting
 
@@ -86,6 +87,47 @@
         }
     }
     return merged;
+}
+
+// Быстрая сортировка
+-(void)quickSort:(NSMutableArray*)array
+{
+    [self quickSort:array start:0 end:(int)[array count]-1];
+}
+
+-(void)quickSort:(NSMutableArray*)array start:(int)start end:(int)end
+{
+    if ( start >= end )
+    {
+        return;
+    }
+    int pivot = [self partition:array start:start end:end];
+    [self quickSort:array start:start end:pivot-1];
+    [self quickSort:array start:pivot+1 end:end];
+}
+
+-(int)partition:(NSMutableArray*)array start:(int)start end:(int)end
+{
+    int index = start + arc4random_uniform(end - start + 1);
+    [Sorting swap:array a:index b:end]; // поместили опорный элемент в конец массива
+    index = start;
+    for (int i = start; i < end; i++)
+    {
+        if ([array[i] integerValue] <= [array[end] integerValue]) // сравниваем с опорным элементом
+        {
+            [Sorting swap:array a:index b:i];
+            index++;
+        }
+    }
+    [Sorting swap:array a:index b:end];
+    return index;
+}
+
++(void)swap:(NSMutableArray*)array a:(int)a b:(int)b
+{
+    id tmp = array[a];
+    array[a] = array[b];
+    array[b] = tmp;
 }
 
 @end
