@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface Sorting : NSObject
+{
+    NSComparator comparator;
+}
 
+-(id)initWithComparator:(NSComparator)cmp;
 
 /// Сортировка вставками
 -(void)insertionSort:(NSMutableArray*)array;
@@ -22,5 +26,8 @@
 
 /// Быстрая сортировка
 -(void)quickSort:(NSMutableArray*)array;
+
+/// Пирамидальная сортировка
+-(void)heapSort:(NSMutableArray*)array;
 
 @end

@@ -10,13 +10,16 @@
 #include <stdlib.h>
 
 @implementation Sorting
+{
+    int heapSize;
+}
 
--(id)init
+-(id)initWithComparator:(NSComparator)cmp
 {
     self = [super init];
     if (self)
     {
-       
+        comparator = cmp;
     }
     return self;
 }
@@ -28,7 +31,7 @@
     {
         id key = array[j];
         int i = j - 1;
-        while (i >= 0 && [array[i] intValue] > [key intValue])
+        while (i >= 0 && comparator(array[i], key) == NSOrderedDescending)
         {
             array[i+1] = array[i];
             i = i - 1;
@@ -44,11 +47,9 @@
     {
         for (int j = (int)[array count]-1; j>i; j--)
         {
-            if ([array[j] intValue] < [array[j-1] intValue])
+            if (comparator(array[j], array[j-1]) == NSOrderedAscending)
             {
-                id tmp = array[j];
-                array[j] = array[j-1];
-                array[j-1] = tmp;
+                [self swap:array a:j b:j-1];
             }
         }
     }
@@ -73,7 +74,7 @@
     {
         if (a < [array1 count] && b < [array2 count])
         {
-            if (array1[a] > array2[b])
+            if (comparator(array1[a], array2[b]) == NSOrderedDescending) // array1[a] > array2[b]
                 merged[i] = array2[b++];
             else
                 merged[i] = array1[a++];
@@ -109,25 +110,82 @@
 -(int)partition:(NSMutableArray*)array start:(int)start end:(int)end
 {
     int index = start + arc4random_uniform(end - start + 1);
-    [Sorting swap:array a:index b:end]; // поместили опорный элемент в конец массива
+    [self swap:array a:index b:end]; // поместили опорный элемент в конец массива
     index = start;
     for (int i = start; i < end; i++)
     {
-        if ([array[i] integerValue] <= [array[end] integerValue]) // сравниваем с опорным элементом
+        NSComparisonResult cmpResult = comparator(array[i], array[end]); // сравниваем с опорным элементом
+        if (cmpResult == NSOrderedAscending || cmpResult == NSOrderedSame) // array[i] <= array[end]
         {
-            [Sorting swap:array a:index b:i];
+            [self swap:array a:index b:i];
             index++;
         }
     }
-    [Sorting swap:array a:index b:end];
+    [self swap:array a:index b:end];
     return index;
 }
 
-+(void)swap:(NSMutableArray*)array a:(int)a b:(int)b
+-(void)swap:(NSMutableArray*)array a:(int)a b:(int)b
 {
     id tmp = array[a];
     array[a] = array[b];
     array[b] = tmp;
 }
+
+// Пирамидальная сортировка (Сортировка с помощью кучи)
+-(void)heapSort:(NSMutableArray*)array
+{
+    heapSize = (int)[array count];
+    [self buildHeap:array];
+    while (heapSize > 1)
+    {
+        [self swap:array a:0 b:heapSize-1];
+        heapSize--;
+        [self heapify:array i:0];
+    }
+}
+
+// Переупорядочивает поддерево кучи начиная с узла i так, чтобы выполнялось
+// основное свойство кучи - a[parent] >= a[child].
+-(void)heapify:(NSMutableArray*)array i:(int)i
+{
+    int l = [self left:i];
+    int r = [self right:i];
+    int largest = i;
+    if (l < heapSize && comparator(array[i], array[l]) == NSOrderedAscending) {
+        largest = l;
+    }
+    if (r < heapSize && comparator(array[largest], array[r]) == NSOrderedAscending) {
+        largest = r;
+    }
+    if (i != largest)
+    {
+        [self swap:array a:i b:largest];
+        [self heapify:array i:largest];
+    }
+}
+
+-(void)buildHeap:(NSMutableArray*)array
+{
+    int i = ((int)[array count]-1)/2;
+    while(i >= 0)
+    {
+        [self heapify:array i:i];
+        i--;
+    }
+}
+
+// Возвращает индекс левого потомка текущего узла
+-(int)left:(int)i
+{
+    return 2*i+1;
+}
+
+// Возвращает индекс правого потомка текущего узла
+-(int)right:(int)i
+{
+    return 2*i+2;
+}
+
 
 @end

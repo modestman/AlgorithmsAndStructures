@@ -21,12 +21,19 @@ int main(int argc, const char * argv[]) {
         
         NSMutableArray *array = [Utils fillRandomIntArrayWithCapacity:10];
         [Utils printArray:array];
-        Sorting *sorting = [Sorting new];
+        
+        Sorting *sorting = [[Sorting alloc] initWithComparator:^NSComparisonResult(NSNumber* obj1, NSNumber* obj2) {
+            return [obj1 compare:obj2];
+        }];
+        
         //[sorting insertionSort:array];
         //[sorting bubbleSort:array];
-        [sorting quickSort:array];
-        //NSArray *result = [sorting mergeSort:array];
-        [Utils printArray:array];
+        //[sorting heapSort:array];
+        //[sorting quickSort:array];
+        NSArray *result = [sorting mergeSort:array];
+        [Utils printArray:result];
+        
+      
 
     }
     return 0;
