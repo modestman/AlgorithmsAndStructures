@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Utils.h"
 #import "Sorting.h"
+#import "SomeProblems.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -30,10 +31,12 @@ int main(int argc, const char * argv[]) {
         //[sorting bubbleSort:array];
         //[sorting heapSort:array];
         //[sorting quickSort:array];
-        NSArray *result = [sorting mergeSort:array];
-        [Utils printArray:result];
+        //NSArray *result = [sorting mergeSort:array];
+        //[Utils printArray:result];
         
-      
+        NSString *str = @"a(())()";
+        BOOL r = [SomeProblems checkParenthesisCorrectness:str];
+        NSLog(@"%@", r ? @"true" : @"false");
 
     }
     return 0;
